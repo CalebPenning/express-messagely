@@ -1,3 +1,5 @@
+\c messagely
+
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS messages;
 
@@ -19,3 +21,5 @@ CREATE TABLE messages (
     sent_at timestamp with time zone NOT NULL,
     read_at timestamp with time zone
 );
+
+\q
