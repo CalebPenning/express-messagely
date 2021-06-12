@@ -64,7 +64,7 @@ class User {
    * [{username, first_name, last_name, phone}, ...] */
 
   static async all() { 
-      const results = await db.query(
+      const result = await db.query(
         `SELECT username,
         first_name,
         last_name,
@@ -125,8 +125,7 @@ class User {
           JOIN users AS u ON m.to_username = u.username
         WHERE from_username = $1`,
         [username])
-
-    const json_resp = result.rows.map(m => ({
+      return result.rows.map(m => ({
       id: m.id,
       to_user: {
         username: m.to_username,
@@ -138,8 +137,6 @@ class User {
       sent_at: m.sent_at,
       read_at: m.read_at
     }))
-
-    return json_resp
   }
 
   /** Return messages to this user.
@@ -162,10 +159,10 @@ class User {
       m.read_at
       FROM messages AS m
         JOIN users AS u ON m.from_username = u.username
-      WHERE from_username = $1`,
+      WHERE to_username = $1`,
       [username])
 
-    const json_resp = result.rows.map(m => ({
+    return result.rows.map(m => ({
       id: m.id,
       from_user: {
           username: m.from_username,
@@ -177,8 +174,6 @@ class User {
         sent_at: m.sent_at,
         read_at: m.read_at
       }))
-    
-    return json_resp
   }
 }
 
